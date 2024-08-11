@@ -22,6 +22,8 @@ import {
   DEPLOYED_ORACLE_URL,
 } from "../utils/constants";
 import { ethers } from "ethers";
+import { Analytics } from "@vercel/analytics/react"
+
 
 const Home = () => {
   const today = new Date().toLocaleDateString("es-AR");
@@ -60,6 +62,7 @@ const Home = () => {
 
   return (
     <div>
+      <Analytics />
       <ResponsiveAppBar />
       <Grid container spacing={3} padding={md ? 5 : 2}>
         <Grid item xs={12} md={4}>
