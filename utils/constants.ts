@@ -1,0 +1,6 @@
+export const DEPLOYED_ORACLE_URL = "https://sepolia.etherscan.io/address/0x9BDc26292dbc659b19FfF26e2Aa699D3aA3E9243"
+export const DEPLOYED_ORACLE_ADDRESS = "0x9BDc26292dbc659b19FfF26e2Aa699D3aA3E9243"
+export const DEPLOYED_ORACLE_CHAIN = "Sepolia"
+
+export const CHAINLINK_INDEXER_URL = "https://sepolia.etherscan.io/search?q=0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD"
+export const CHAINLINK_INDEXER_ADDRESS = "0x6090149792dAAeE9D1D568c9f9a6F6B46AA29eFD"
