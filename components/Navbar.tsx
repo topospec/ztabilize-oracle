@@ -14,8 +14,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { List } from "@phosphor-icons/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const pages = ["Docs", "Demo", "About"];
+const pages = [
+  { label: "Docs", href: "https://ztabilize.gitbook.io/whitepaper" },
+  { label: "Demo", href: "https://ztabilize.com/mint" },
+  { label: "Contact", href: "https://t.me/Matimcs" },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
@@ -40,6 +46,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const router = useRouter();
 
   return (
     <AppBar position="static" sx={{ background: "rgb(30, 30, 30)" }}>
@@ -88,11 +96,13 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography fontFamily={"Merriweather"} textAlign="center">
-                    {page}
-                  </Typography>
+              {pages.map((page, i) => (
+                <MenuItem key={i} onClick={handleCloseNavMenu}>
+                  <Link href={page.href} target="_blank">
+                    <Typography fontFamily={"Roboto"} textAlign="center">
+                      {page.label}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
@@ -110,13 +120,18 @@ function ResponsiveAppBar() {
             />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block", fontFamily: "Lora" }}
+                key={i}
+                onClick={() => window.open(page.href, "_blank")}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontFamily: "Lora",
+                }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
