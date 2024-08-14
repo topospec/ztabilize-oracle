@@ -29,6 +29,7 @@ const Home = () => {
   const md = useMediaQuery("(min-width:900px)");
 
   const [uvaPrice, setUvaPrice] = React.useState("0.00");
+  const [usdtPrice, setUsdtPrice] = React.useState("0.00");
 
   const provider = new ethers.JsonRpcProvider("https://sepolia.base.org");
 
@@ -40,7 +41,6 @@ const Home = () => {
 
   useEffect(() => {
     if (provider) {
-      console.log("Provider connected");
       handleFetchUvaPrice();
     }
   }, [provider]);
@@ -51,8 +51,27 @@ const Home = () => {
       const uvaPrice = await oracleContract.uvaPrice();
       const parsedUvaPrice = ethers.formatUnits(uvaPrice, 18);
       setUvaPrice((+parsedUvaPrice).toFixed(2));
+      await handleFetchUsdPrice();
     } catch (e) {
       console.error("Error fetching UVA Price: ", e);
+    }
+  };
+
+  useEffect(() => {
+    if (uvaPrice) {
+      handleFetchUsdPrice();
+    }
+  }, [uvaPrice]);
+
+  const handleFetchUsdPrice = async () => {
+    try {
+      const usdPrice = await fetch("https://criptoya.com/api/USDT/ARS/1");
+      const res = await usdPrice.json();
+      const price = res?.lemoncash?.ask;
+      const parsedPrice = parseFloat(uvaPrice) / price;
+      setUsdtPrice(parsedPrice.toFixed(2));
+    } catch (e) {
+      console.error("Error fetching USD Price: ", e);
     }
   };
 
@@ -158,7 +177,7 @@ const Home = () => {
                   alignItems={"center"}
                   gap={"10px"}
                 >
-                  0.79
+                  {usdtPrice}
                   <Typography
                     fontFamily={"Merriweather"}
                     fontWeight={200}
@@ -275,7 +294,8 @@ const Home = () => {
             fontWeight={400}
             fontSize={"14px"}
           >
-            Index is updated everyday by chainlink automation service at 11:00 GMT
+            Index is updated everyday by chainlink automation service at 11:00
+            GMT
           </Typography>
           <Typography
             fontFamily={"Merriweather"}
@@ -322,12 +342,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// export async function getStaticProps() {
-//     const allPostsData = getSortedPostsData();
-//     return {
-//       props: {
-//         allPostsData,
-//       },
-//     };
-//   }
