@@ -32,12 +32,12 @@ const Home = () => {
   const [uvaPrice, setUvaPrice] = React.useState("0.00");
 
   const provider = new ethers.JsonRpcProvider(
-    "https://public.stackup.sh/api/v1/node/ethereum-sepolia"
+    "https://sepolia.base.org"
   );
 
   const oracleContract = new ethers.Contract(
     DEPLOYED_ORACLE_ADDRESS,
-    ["function uvaToday() view returns (int256)"],
+    ["function uvaPrice() view returns (int256)"],
     provider
   );
 
@@ -51,7 +51,7 @@ const Home = () => {
   const handleFetchUvaPrice = async () => {
     if (!provider) return;
     try {
-      const uvaPrice = await oracleContract.uvaToday();
+      const uvaPrice = await oracleContract.uvaPrice();
       console.log("UVA Price: ", uvaPrice);
       const parsedUvaPrice = ethers.formatUnits(uvaPrice, 18);
       setUvaPrice((+parsedUvaPrice).toFixed(2));
