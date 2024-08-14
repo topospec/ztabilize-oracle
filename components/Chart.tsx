@@ -37,7 +37,7 @@ const Chart = () => {
     labels: data.map((d) => d.MonthYear),
     datasets: [
       {
-        label: "UVA Token Price (ARS)",
+        label: "UVA Price (ARS)",
         data: data.map((d) => d.UVA),
         borderColor: "orange",
         fill: true,

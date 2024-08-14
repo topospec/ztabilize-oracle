@@ -22,8 +22,7 @@ import {
   DEPLOYED_ORACLE_URL,
 } from "../utils/constants";
 import { ethers } from "ethers";
-import { Analytics } from "@vercel/analytics/react"
-
+import { Analytics } from "@vercel/analytics/react";
 
 const Home = () => {
   const today = new Date().toLocaleDateString("es-AR");
@@ -31,9 +30,7 @@ const Home = () => {
 
   const [uvaPrice, setUvaPrice] = React.useState("0.00");
 
-  const provider = new ethers.JsonRpcProvider(
-    "https://sepolia.base.org"
-  );
+  const provider = new ethers.JsonRpcProvider("https://sepolia.base.org");
 
   const oracleContract = new ethers.Contract(
     DEPLOYED_ORACLE_ADDRESS,
@@ -52,7 +49,6 @@ const Home = () => {
     if (!provider) return;
     try {
       const uvaPrice = await oracleContract.uvaPrice();
-      console.log("UVA Price: ", uvaPrice);
       const parsedUvaPrice = ethers.formatUnits(uvaPrice, 18);
       setUvaPrice((+parsedUvaPrice).toFixed(2));
     } catch (e) {
@@ -101,10 +97,10 @@ const Home = () => {
                     gap={"5px"}
                     alignItems={"center"}
                   >
-                    UVA Token Price
+                    UVA Index Price
                     <CaretRight />
                     <Typography fontFamily={"Merriweather"} fontWeight={400}>
-                      $UVAZ
+                      $UVAz
                     </Typography>
                   </Typography>
                   <Typography
@@ -267,12 +263,27 @@ const Home = () => {
             fontSize={"14px"}
           >
             <b>🔮&nbsp;UVA Oracle:</b>
-            &nbsp;Explore real-time UVA prices, sourced directly from the
+            &nbsp;Explore real-time UVA price, sourced directly from the
             Argentine Central Bank and reliably indexed by our Chainlink oracle.
-            Our platform ensures you have access to the latest and most accurate
-            UVA data, enabling informed decisions in your financial activities.
-            Stay updated with Ztabilize and experience seamless integration of
+            Our platform ensures you have access to the latest UVA price,
+            enabling informed decisions in your financial activities. Stay
+            updated with Ztabilize and experience seamless integration of
             traditional financial data into the blockchain ecosystem.
+          </Typography>
+          <Typography
+            fontFamily={"Merriweather"}
+            fontWeight={400}
+            fontSize={"14px"}
+          >
+            Index is updated everyday by chainlink automation service at 11:00 GMT
+          </Typography>
+          <Typography
+            fontFamily={"Merriweather"}
+            fontWeight={400}
+            fontSize={"14px"}
+          >
+            Feel free to implement our oracle in your smart contracts by reading
+            the method <i>uvaPrice()</i> from the contract below:
           </Typography>
           <Typography
             fontFamily={"Merriweather"}
