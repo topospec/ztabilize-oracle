@@ -79,7 +79,7 @@ const Chart = () => {
   };
 
   return (
-    <Box width={"100%"} height={"100%"} minHeight={"350px"}>
+    <Box width={"100%"} height={"100%"} minHeight={"425px"}>
       <Line data={chartData} options={options} />
     </Box>
   );

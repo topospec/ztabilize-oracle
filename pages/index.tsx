@@ -29,13 +29,19 @@ const Home = () => {
   const md = useMediaQuery("(min-width:900px)");
 
   const [uvaPrice, setUvaPrice] = React.useState("0.00");
+  const [cerPrice, setCerPrice] = React.useState("0.00");
+  const [inflation, setInflation] = React.useState("0.00");
   const [usdtPrice, setUsdtPrice] = React.useState("0.00");
 
   const provider = new ethers.JsonRpcProvider("https://sepolia.base.org");
 
   const oracleContract = new ethers.Contract(
     DEPLOYED_ORACLE_ADDRESS,
-    ["function uvaPrice() view returns (int256)"],
+    [
+      "function uva() view returns (uint256)",
+      "function cer() view returns (uint256)",
+      "function inflation() view returns (uint256)",
+    ],
     provider
   );
 
@@ -48,9 +54,21 @@ const Home = () => {
   const handleFetchUvaPrice = async () => {
     if (!provider) return;
     try {
-      const uvaPrice = await oracleContract.uvaPrice();
-      const parsedUvaPrice = ethers.formatUnits(uvaPrice, 18);
+      // const uvaPrice = await oracleContract.uva();
+      const [uva, cer, inflation] = await Promise.all([
+        oracleContract.uva(),
+        oracleContract.cer(),
+        oracleContract.inflation(),
+      ]);
+      const parsedUvaPrice = ethers.formatUnits(uva, 18);
+      const parsedCerPrice = ethers.formatUnits(cer, 18);
+      const parsedInflation = ethers.formatUnits(inflation, 18);
+      console.log("UVA: ", parsedUvaPrice);
+      console.log("CER: ", parsedCerPrice);
+      console.log("Inflation: ", parsedInflation);
       setUvaPrice((+parsedUvaPrice).toFixed(2));
+      setCerPrice((+parsedCerPrice).toFixed(2));
+      setInflation((+parsedInflation).toFixed(2));
       await handleFetchUsdPrice();
     } catch (e) {
       console.error("Error fetching UVA Price: ", e);
@@ -91,7 +109,7 @@ const Home = () => {
             <Box
               width={"100%"}
               height={"100%"}
-              minHeight={"360px"}
+              minHeight={"425px"}
               display={"flex"}
               flexDirection={"column"}
               gap={"25px"}
@@ -116,11 +134,11 @@ const Home = () => {
                     gap={"5px"}
                     alignItems={"center"}
                   >
-                    UVA Index Price
+                    {/* <CaretRight /> */}
+                    BCRA Data Feed
                     <CaretRight />
-                    <Typography fontFamily={"Merriweather"} fontWeight={400}>
-                      $UVAz
-                    </Typography>
+                    {/* <Typography fontFamily={"Merriweather"} fontWeight={400}>
+                    </Typography> */}
                   </Typography>
                   <Typography
                     fontSize={"14px"}
@@ -149,6 +167,18 @@ const Home = () => {
                   alignItems={"center"}
                   gap={"10px"}
                 >
+                  <Typography
+                    fontFamily={"Merriweather"}
+                    fontWeight={200}
+                    color={"gray"}
+                    fontSize={"20px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"5px"}
+                  >
+                    UVA
+                    <CaretRight />
+                  </Typography>
                   {uvaPrice}
                   <Typography
                     fontFamily={"Merriweather"}
@@ -177,6 +207,18 @@ const Home = () => {
                   alignItems={"center"}
                   gap={"10px"}
                 >
+                  <Typography
+                    fontFamily={"Merriweather"}
+                    fontWeight={200}
+                    color={"gray"}
+                    fontSize={"20px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"5px"}
+                  >
+                    UVA
+                    <CaretRight />
+                  </Typography>
                   {usdtPrice}
                   <Typography
                     fontFamily={"Merriweather"}
@@ -196,8 +238,65 @@ const Home = () => {
                     />
                   </Typography>
                 </Typography>
+                {/* ... */}
+                <Typography
+                  fontFamily={"Merriweather"}
+                  fontWeight={600}
+                  fontSize={"36px"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={"10px"}
+                >
+                  <Typography
+                    fontFamily={"Merriweather"}
+                    fontWeight={200}
+                    color={"gray"}
+                    fontSize={"20px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"5px"}
+                  >
+                    CER
+                    <CaretRight />
+                  </Typography>
+                  {cerPrice}
+                </Typography>
+                {/* .... */}
+                <Typography
+                  fontFamily={"Merriweather"}
+                  fontWeight={600}
+                  fontSize={"36px"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  gap={"10px"}
+                >
+                  <Typography
+                    fontFamily={"Merriweather"}
+                    fontWeight={200}
+                    color={"gray"}
+                    fontSize={"20px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"5px"}
+                  >
+                    Inflation
+                    <CaretRight />
+                  </Typography>
+                  {inflation}
+                  <Typography
+                    fontFamily={"Merriweather"}
+                    fontWeight={200}
+                    color={"gray"}
+                    fontSize={"20px"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"5px"}
+                  >
+                    %
+                  </Typography>
+                </Typography>
               </Box>
-              <Box width={"100%"} display={"flex"} justifyContent={"center"}>
+              {/* <Box width={"100%"} display={"flex"} justifyContent={"center"}>
                 <Chip
                   icon={<LinkIcon size={17} color="#0070F3" />}
                   onClick={() => window.open(DEPLOYED_ORACLE_URL, "_blank")}
@@ -210,7 +309,7 @@ const Home = () => {
                     fontSize: 12,
                   }}
                 />
-              </Box>
+              </Box> */}
               <Box
                 width={"100%"}
                 display={"flex"}
@@ -255,10 +354,10 @@ const Home = () => {
             variant="outlined"
             sx={{
               boxShadow: "4px 4px 0px 0px rgba(0,0,0,0.1)",
-              minHeight: "350px",
+              minHeight: "425px",
             }}
           >
-            <Box width={"100%"} height={"100%"} minHeight={"360px"}>
+            <Box width={"100%"} height={"100%"} minHeight={"425px"}>
               <Chart />
             </Box>
           </Card>
