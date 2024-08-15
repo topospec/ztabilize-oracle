@@ -18,9 +18,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const pages = [
-  { label: "Docs", href: "https://ztabilize.gitbook.io/whitepaper" },
-  { label: "Demo", href: "https://ztabilize.com/mint" },
-  { label: "Contact", href: "https://t.me/Matimcs" },
+  { label: "Docs", href: "https://ztabilize-oracle.gitbook.io/ztabilize-oracle" },
+  { label: "Contact", href: "https://t.me/spectopo" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
