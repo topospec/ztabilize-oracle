@@ -1,5 +1,5 @@
 export const DEPLOYED_ORACLE_URL = "https://sepolia.basescan.org/address/0x8c131D46c88c401A4D9A0dEd27518c787aA34Ea5"
-export const DEPLOYED_ORACLE_ADDRESS = "0x8c131D46c88c401A4D9A0dEd27518c787aA34Ea5"
+export const DEPLOYED_ORACLE_ADDRESS = "0x47292657212aCBC2aee48FEd4806F0E0e33E781e"
 export const DEPLOYED_ORACLE_CHAIN = "Base Sepolia"
 
 export const CHAINLINK_INDEXER_URL = "https://sepolia.basescan.org/address/0x14bc7F6Da6cA3E072793c185e01a76E62341CC61"
